@@ -9,17 +9,17 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const addNote = (newNote) => {
     setNotes((prev) => {
-      dkeeper.createNote(newNote.title,newNote.content);
-      return [newNote,...prev];
+      dkeeper.createNote(newNote.title, newNote.content);
+      return [newNote, ...prev];
     });
   };
-  useEffect(()=>{
+  useEffect(() => {
     console.log("useEffect is triggered!");
     fetchData();
-  },[]);
+  }, []);
 
-  const fetchData=async ()=>{
-    const notesArray=await dkeeper.readNotes();
+  const fetchData = async () => {
+    const notesArray = await dkeeper.readNotes();
     setNotes(notesArray);
   };
 
@@ -33,18 +33,20 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="App">
       <Header />
       <CreateArea onAdd={addNote} />
-      {notes.map((note, index) => (
-        <Note
-          key={index}
-          id={index}
-          title={note.title}
-          content={note.content}
-          onDelete={deleteNote}
-        />
-      ))}
+      <div className="noteHolder">
+        {notes.map((note, index) => (
+          <Note
+            key={index}
+            id={index}
+            title={note.title}
+            content={note.content}
+            onDelete={deleteNote}
+          />
+        ))}
+      </div>
       <Footer />
     </div>
   );
